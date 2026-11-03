@@ -17,11 +17,18 @@ root accounts combined.
 **This machine is intentionally vulnerable. Run it only on an isolated
 network.**
 
-## Status
+## Running it
 
-This box ships as a VM appliance (OVA) — see the `vm/` directory once it's
-built. There is no Docker build in this repo (an earlier Docker build was
-removed; a Docker version may be added back separately).
+This box ships as **two** VM appliances — download both `.ova` files
+from this repo's [Releases](../../releases) page and import both into
+VirtualBox (File > Import Appliance) or VMware Workstation/Fusion
+(File > Open). Each VM needs its second network adapter set to the
+same Internal Network / LAN segment name so the two can reach each
+other. See [`vm/README.md`](vm/README.md) for exact steps and for
+rebuilding from source.
+
+There is no Docker build in this repo (an earlier one was removed; a
+Docker version may be added back separately).
 
 ## Flag format
 

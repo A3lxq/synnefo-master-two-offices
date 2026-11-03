@@ -1,0 +1,24 @@
+# Explicit network-config for the NoCloud datasource.
+#
+# Two NICs: enp0s2 (NAT/user networking -- build SSH + the published
+# web port) gets DHCP; enp0s3 (the point-to-point link to backoffice,
+# standing in for docker-compose's old "internal-net") gets a fixed
+# static IP, since there is no DHCP server on that private link.
+#
+# Matched by name, not MAC -- see the single-host boxes' own
+# network-config.yaml for why (MAC-pinned netplan rules break the
+# moment the disk is booted under a different hypervisor). Verified
+# against this host's actual enp0s2/enp0s3 naming before writing this.
+version: 2
+ethernets:
+  nat:
+    match:
+      name: "enp0s2"
+    dhcp4: true
+    dhcp6: true
+  internal-link:
+    match:
+      name: "enp0s3"
+    dhcp4: false
+    addresses:
+      - 10.10.10.1/24

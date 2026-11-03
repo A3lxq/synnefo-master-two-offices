@@ -1,0 +1,42 @@
+#cloud-config
+# First-boot configuration for the "backoffice" half of the Master
+# (Two Offices) CTF box. Native build -- no Docker. This file only
+# establishes accounts, packages, and SSH policy; vm/scripts/
+# remote-provision-backoffice.sh (run over SSH) deploys the challenge.
+# NOTE: ctfbuilder's SSH here is build-tooling only (key-based, private
+# key never shipped) -- it is NOT part of the challenge. The app port
+# (6000) is never forwarded to the host; the only intended path to it
+# is the NIC1 internal link from frontdesk, exactly like the original
+# docker-compose "internal: true" network it replaces.
+
+hostname: backoffice
+manage_etc_hosts: true
+
+users:
+  - name: ctfbuilder
+    gecos: "CTF build/maintenance account (instructor-only, key-based)"
+    groups: [sudo]
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKdkeCYqlhw6ffAJVjsY6IiGXJ9uiz0ZJUP6zw63aUZx ctf-instructor-build-key"
+
+chpasswd:
+  expire: false
+
+ssh_pwauth: false
+disable_root: true
+
+package_update: true
+package_upgrade: false
+packages:
+  - python3
+  - python3-venv
+  - python3-pip
+  - openssh-server
+  - sudo
+  - libcap2-bin
+
+runcmd:
+  - [bash, -c, "echo 'cloud-init base config applied' > /var/log/ctf-cloudinit.log"]

@@ -1,0 +1,16 @@
+# See frontdesk's network-config.yaml for the full rationale. Same
+# split: enp0s2 (NAT, build-only) gets DHCP, enp0s3 (the internal link
+# to frontdesk) gets a fixed static IP.
+version: 2
+ethernets:
+  nat:
+    match:
+      name: "enp0s2"
+    dhcp4: true
+    dhcp6: true
+  internal-link:
+    match:
+      name: "enp0s3"
+    dhcp4: false
+    addresses:
+      - 10.10.10.2/24
