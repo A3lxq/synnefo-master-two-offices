@@ -1,5 +1,7 @@
 # Case File 4 (Master) — Two Offices
 
+![banner](banner.jpeg)
+
 Part of **The Halcyon Protocol** CTF series. This box stands alone — you do
 not need any other box in the series to play it.
 
